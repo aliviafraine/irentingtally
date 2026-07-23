@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iRenting | FSU Off-Campus Housing Prep & Learning Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        garnet: {
+                            DEFAULT: '#782F40',
+                            dark: '#56212E',
+                            light: '#9E3E54'
+                        },
+                        gold: {
+                            DEFAULT: '#CEB888',
+                            dark: '#B59E6D',
+                            light: '#E6D9BC',
+                            soft: '#F8F5EE'
+                        },
+                        darkSlate: '#2C2A29'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .mascot-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CEB888;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-darkSlate font-sans flex flex-col min-h-screen">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-garnet-dark text-gold text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-2">
+        <span class="bg-gold text-garnet-dark px-2 py-0.5 rounded-full font-bold text-[10px]">FSU Official Partner Resource</span>
+        <span>Empowering Noles for Off-Campus Success with Raleigh the Horse 🐴</span>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gold/30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo & Mascot -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-garnet rounded-2xl flex items-center justify-center text-gold font-extrabold text-2xl shadow-md border-2 border-gold relative">
+                        iR
+                        <span class="absolute -bottom-1 -right-1 text-sm">🐴</span>
+                    </div>
+                    <div>
+                        <a href="#" class="text-2xl font-black tracking-tight text-garnet">iRenting<span class="text-gold">.</span></a>
+                        <p class="text-[10px] font-bold tracking-widest uppercase text-gray-500">FSU Housing Literacy</p>
+                    </div>
+                </div>
+
+                <!-- Global Search Bar -->
+                <div class="hidden md:flex relative flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <input type="text" id="globalSearch" onkeyup="handleGlobalSearch()" placeholder="Search terms (e.g. Deposit, Guarantor, Sublease)..." 
+                            class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-transparent rounded-full text-sm focus:outline-none focus:bg-white focus:border-garnet transition-all shadow-inner">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+                    </div>
+                    <!-- Search Results Dropdown -->
+                    <div id="searchResults" class="hidden absolute top-12 left-0 right-0 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden max-h-80 custom-scrollbar"></div>
+                </div>
+
+                <!-- Nav Links & Account Toggle -->
+                <div class="flex items-center gap-4">
+                    <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-gray-700">
+                        <a href="#modules" class="hover:text-garnet transition-colors">Modules</a>
+                        <a href="#games" class="hover:text-garnet transition-colors">Games</a>
+                        <a href="#calculator" class="hover:text-garnet transition-colors">Budget Calculator</a>
+                        <a href="#glossary" class="hover:text-garnet transition-colors">Glossary</a>
+                    </nav>
+
+                    <!-- Account / Landlord Mode Toggle -->
+                    <div class="flex items-center bg-gold-soft border border-gold/40 p-1 rounded-full text-xs font-semibold">
+                        <button id="userBtn" onclick="toggleRole('student')" class="px-3 py-1.5 rounded-full bg-garnet text-white transition-all shadow-sm">Student View</button>
+                        <button id="landlordBtn" onclick="toggleRole('landlord')" class="px-3 py-1.5 rounded-full text-gray-700 hover:text-garnet transition-all">Landlord Portal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH RALEIGH THE HORSE -->
+    <section class="relative bg-gradient-to-br from-garnet via-garnet-dark to-darkSlate text-white overflow-hidden py-12 lg:py-16">
+        <!-- Gold Decorative Shapes -->
+        <div class="absolute -top-12 -right-12 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-10 w-64 h-64 bg-gold/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Hero Content -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-gold/20 text-gold border border-gold/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-graduation-cap"></i> Built for Florida State University Students
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Master Your Lease. <br><span class="text-gold">Renting Done Right.</span>
+                    </h1>
+                    <p class="text-gray-200 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        Our mission is to eliminate the stress and uncertainty of off-campus housing for first-time renting students at FSU by providing an accessible, game-based learning platform that transforms complex leasing jargon into actionable, independent life skills.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="openQuizModal()" class="bg-gold hover:bg-gold-dark text-garnet-dark font-extrabold px-6 py-3.5 rounded-xl transition-all transform hover:-translate-y-0.5 shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-compass"></i> Take Placement Quiz
+                        </button>
+                        <a href="#games" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-6 py-3.5 rounded-xl transition-all backdrop-blur-sm flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad"></i> Jump to Games
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Mascot Feature Card -->
+                <div class="lg:col-span-5 flex flex-col items-center">
+                    <div class="relative w-full max-w-sm">
+                        <!-- Raleigh Speech Bubble -->
+                        <div class="mascot-bubble relative bg-white text-darkSlate p-5 rounded-2xl shadow-2xl mb-4 border-2 border-gold">
+                            <p class="text-xs font-bold text-garnet uppercase tracking-wider mb-1">Raleigh the Horse Says:</p>
+                            <p class="text-sm font-medium leading-snug" id="mascotQuote">
+                                "Hey Nole! Don't sign that lease until you've checked for hidden utility fees! Let's figure out where you should start!"
+                            </p>
+                        </div>
+
+                        <!-- Mascot Graphic Container -->
+                        <div class="bg-gradient-to-t from-gold/30 to-white/10 p-6 rounded-3xl border border-gold/40 flex flex-col items-center justify-center text-center backdrop-blur-md relative">
+                            <div class="w-32 h-32 bg-garnet border-4 border-gold rounded-full flex items-center justify-center text-6xl shadow-xl relative my-2">
+                                🐴
+                                <span class="absolute top-0 right-0 bg-gold text-garnet font-black text-xs px-2 py-0.5 rounded-full border border-garnet">FSU Guide</span>
+                            </div>
+                            <h3 class="text-xl font-black text-gold">Raleigh the Horse</h3>
+                            <p class="text-xs text-gray-300">Your Personal FSU Housing Mentor</p>
+                            
+                            <!-- Overall Progress Bar (Guest / Student) -->
+                            <div class="w-full bg-black/40 rounded-full h-3 mt-4 overflow-hidden border border-gold/30">
+                                <div id="overallProgressBar" class="bg-gold h-full rounded-full transition-all duration-500" style="width: 25%"></div>
+                            </div>
+                            <p class="text-[11px] text-gray-300 mt-1" id="progressText">Overall Knowledge Progress: 25%</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PLACEMENT QUIZ MODAL -->
+    <div id="quizModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl border-2 border-gold">
+            <button onclick="closeQuizModal()" class="absolute top-5 right-5 text-gray-400 hover:text-garnet text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div id="quizContent">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-garnet text-gold rounded-xl flex items-center justify-center font-bold text-lg">
+                        🐴
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-extrabold text-garnet">Diagnostic Level Placement</h3>
+                        <p class="text-xs text-gray-500">3 Quick Questions to find your starting point</p>
+                    </div>
+                </div>
+
+                <div id="quizStepContainer" class="space-y-6">
+                    <!-- Quiz Steps Render Dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT BODY -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 w-full">
+
+        <!-- THREE MODULES SECTION -->
+        <section id="modules">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs font-bold tracking-widest text-garnet uppercase bg-garnet/10 px-3 py-1 rounded-full">Tailored Paths</span>
+                <h2 class="text-3xl font-extrabold text-darkSlate mt-2">Leasing Skill Modules</h2>
+                <p class="text-gray-600 text-sm mt-1">Jump into information and games tailored to your current level of experience.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Beginner Module -->
+                <div id="module-beginner" class="bg-white rounded-3xl border-2 border-gray-200 p-6 shadow-sm hover:shadow-xl transition-all relative flex flex-col justify-between group hover:border-gold">
+                    <div class="absolute -top-3.5 left-6 bg-green-600 text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+                        Beginner • First-Time Renter
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center text-xl font-bold mb-4 mt-2">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-darkSlate">Rookie Renter</h3>
+                        <p class="text-gray-600 text-xs mt-2 leading-relaxed">
+                            Perfect for freshmen or students stepping off-campus for the first time. Master basic terminology and monthly budgeting.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-xs text-gray-600">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-500"></i> What is a Security Deposit?</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-500"></i> Roommate Agreement Basics</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-500"></i> Understanding Florida Power & Light (FPL)</li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="#game-jargon" class="w-full py-2.5 bg-gray-100 hover:bg-garnet hover:text-white text-garnet font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all">
+                            Start Beginner Track <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Moderate Module -->
+                <div id="module-moderate" class="bg-white rounded-3xl border-2 border-gold p-6 shadow-md hover:shadow-xl transition-all relative flex flex-col justify-between group ring-2 ring-gold/20">
+                    <div class="absolute -top-3.5 left-6 bg-gold-dark text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+                        Moderate • Savvy Student
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-gold/20 text-garnet rounded-2xl flex items-center justify-center text-xl font-bold mb-4 mt-2">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-darkSlate">Savvy Student</h3>
+                        <p class="text-gray-600 text-xs mt-2 leading-relaxed">
+                            For students familiar with basic rent, but needing clarity on hidden fees, joint leases, and Tallahassee tenant customs.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-xs text-gray-600">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gold-dark"></i> Spotting Predatory Lease Terms</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gold-dark"></i> Individual vs. Joint Leases</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-gold-dark"></i> Subleasing & Summer Transfers</li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="#game-redflag" class="w-full py-2.5 bg-garnet text-white hover:bg-garnet-dark font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md">
+                            Start Moderate Track <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Expert Module -->
+                <div id="module-expert" class="bg-white rounded-3xl border-2 border-gray-200 p-6 shadow-sm hover:shadow-xl transition-all relative flex flex-col justify-between group hover:border-garnet">
+                    <div class="absolute -top-3.5 left-6 bg-garnet text-white text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
+                        Expert • Lease Master
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-garnet/10 text-garnet rounded-2xl flex items-center justify-center text-xl font-bold mb-4 mt-2">
+                            <i class="fa-solid fa-gavel"></i>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-darkSlate">Lease Master</h3>
+                        <p class="text-gray-600 text-xs mt-2 leading-relaxed">
+                            Deep dive into Florida Statute 83 legalities, security deposit claim disputes, landlord entry notices, and legal notices.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-xs text-gray-600">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-garnet"></i> FL Statute Chapter 83 Legal Protections</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-garnet"></i> 15/30 Day Security Deposit Rules</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-garnet"></i> Official Notice of Maintenance Non-Compliance</li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <a href="#game-detective" class="w-full py-2.5 bg-gray-100 hover:bg-garnet hover:text-white text-garnet font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all">
+                            Start Expert Track <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTERACTIVE GAMES HUB -->
+        <section id="games" class="space-y-10">
+            <div class="border-b border-gray-200 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                <div>
+                    <span class="text-xs font-bold tracking-widest text-gold-dark uppercase">Interactive Simulations</span>
+                    <h2 class="text-3xl font-extrabold text-darkSlate mt-1">Renters Arcade & Scenarios</h2>
+                </div>
+                <div class="text-xs text-gray-500">
+                    <i class="fa-solid fa-trophy text-gold"></i> Complete games to earn your <span class="font-bold text-garnet">iRenting Certificate</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- GAME 1: SPOT THE RED FLAG -->
+                <div id="game-redflag" class="bg-white border border-gray-200 rounded-3xl p-6 shadow-md relative overflow-hidden flex flex-col">
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="p-3 bg-red-100 text-red-600 rounded-2xl text-lg font-bold"><i class="fa-solid fa-flag"></i></span>
+                            <div>
+                                <h3 class="font-black text-lg text-darkSlate">Spot the Red Flag</h3>
+                                <p class="text-xs text-gray-500">Click the clauses that contain illegal or unfair terms!</p>
+                            </div>
+                        </div>
+                        <span id="redFlagScore" class="bg-garnet/10 text-garnet font-extrabold text-xs px-3 py-1 rounded-full">Score: 0 / 3</span>
+                    </div>
+
+                    <!-- Interactive Lease Paper -->
+                    <div class="bg-amber-50/40 border border-amber-200/60 p-4 rounded-2xl text-xs font-mono space-y-3 flex-grow my-2 shadow-inner">
+                        <p class="text-gray-400 font-sans font-bold border-b border-amber-200 pb-1">LEASE AGREEMENT CLAUSES (Click to Inspect):</p>
+                        
+                        <div onclick="checkRedFlag(1, false)" id="clause-1" class="p-2.5 rounded-xl border border-transparent hover:border-gray-300 hover:bg-white cursor-pointer transition-all">
+                            1. Tenant agrees to pay rent on or before the 1st day of each month via the online portal.
+                        </div>
+                        
+                        <div onclick="checkRedFlag(2, true)" id="clause-2" class="p-2.5 rounded-xl border border-transparent hover:border-gray-300 hover:bg-white cursor-pointer transition-all">
+                            2. Landlord reserves the right to enter the unit at any time without prior notice or consent for routine checks.
+                        </div>
+                        
+                        <div onclick="checkRedFlag(3, true)" id="clause-3" class="p-2.5 rounded-xl border border-transparent hover:border-gray-300 hover:bg-white cursor-pointer transition-all">
+                            3. Security deposit will be forfeited automatically if tenant vacates prior to lease end, regardless of landlord re-renting.
+                        </div>
+
+                        <div onclick="checkRedFlag(4, true)" id="clause-4" class="p-2.5 rounded-xl border border-transparent hover:border-gray-300 hover:bg-white cursor-pointer transition-all">
+                            4. Tenant is responsible for paying all major roof and structural foundation repair costs incurred during tenancy.
+                        </div>
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="redFlagFeedback" class="mt-2 text-xs p-3 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-garnet"></i> Click on clauses above to test your red flag detection!
+                    </div>
+                </div>
+
+                <!-- GAME 2: JARGON DRAGON (MATCHING / TRIVIA) -->
+                <div id="game-jargon" class="bg-white border border-gray-200 rounded-3xl p-6 shadow-md flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="p-3 bg-purple-100 text-purple-600 rounded-2xl text-lg font-bold"><i class="fa-solid fa-dragon"></i></span>
+                                <div>
+                                    <h3 class="font-black text-lg text-darkSlate">Jargon Dragon Slayer</h3>
+                                    <p class="text-xs text-gray-500">Defeat the dragon by selecting the correct definition!</p>
+                                </div>
+                            </div>
+                            <span id="jargonRound" class="bg-purple-50 text-purple-700 font-extrabold text-xs px-3 py-1 rounded-full">Question 1/3</span>
+                        </div>
+
+                        <!-- Game Card Area -->
+                        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 mb-4 text-center">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Target Term</span>
+                            <h4 id="jargonTerm" class="text-2xl font-black text-garnet mt-1">Joint & Several Liability</h4>
+                        </div>
+
+                        <div id="jargonOptions" class="space-y-2">
+                            <!-- Options injected by JS -->
+                        </div>
+                    </div>
+
+                    <div id="jargonFeedback" class="mt-4 text-xs p-3 rounded-xl bg-purple-50 text-purple-900 border border-purple-200 hidden"></div>
+                </div>
+
+                <!-- GAME 3: LEASE DETECTIVE (CHOOSE YOUR PATH) -->
+                <div id="game-detective" class="bg-white border border-gray-200 rounded-3xl p-6 shadow-md lg:col-span-2 flex flex-col md:flex-row gap-6 items-center">
+                    <div class="w-full md:w-1/3 text-center md:text-left space-y-3">
+                        <span class="bg-gold/20 text-garnet text-xs font-black px-3 py-1 rounded-full uppercase">Real-Life Scenario</span>
+                        <h3 class="text-2xl font-extrabold text-darkSlate">Lease Detective: FSU Game Day Crisis</h3>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Navigate real-world rental challenges in Tallahassee. Your decisions impact your deposit and peace of mind!
+                        </p>
+                        <div class="p-3 bg-gold-soft border border-gold/40 rounded-xl flex items-center gap-3 text-left text-xs">
+                            <span class="text-2xl">🐴</span>
+                            <div>
+                                <p class="font-bold text-garnet">Raleigh's Hint:</p>
+                                <p class="text-gray-600">Always put maintenance notices in written format!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detective Interactive Area -->
+                    <div class="w-full md:w-2/3 bg-gray-900 text-white p-6 rounded-2xl space-y-4 relative border border-gray-800 shadow-inner">
+                        <div id="scenarioStep" class="space-y-4">
+                            <span class="text-gold font-bold text-xs uppercase tracking-wider"><i class="fa-solid fa-[#CEB888] fa-magnifying-glass"></i> Scenario #1</span>
+                            <p class="text-sm font-medium leading-relaxed">
+                                You move into your apartment near Pensacola Street in August. It’s 92°F outside and your AC unit breaks on Friday evening before an FSU home game. What is your first best action?
+                            </p>
+                            <div class="space-y-2 pt-2">
+                                <button onclick="solveScenario(1)" class="w-full text-left p-3 rounded-xl bg-gray-800 hover:bg-garnet text-xs font-semibold border border-gray-700 transition-all flex justify-between items-center">
+                                    <span>A. Text the landlord's personal number angrily and withholding next month's rent immediately.</span>
+                                    <i class="fa-solid fa-chevron-right text-gold"></i>
+                                </button>
+                                <button onclick="solveScenario(2)" class="w-full text-left p-3 rounded-xl bg-gray-800 hover:bg-garnet text-xs font-semibold border border-gray-700 transition-all flex justify-between items-center">
+                                    <span>B. Submit an official maintenance request through the portal and send a follow-up written email documenting the temp.</span>
+                                    <i class="fa-solid fa-chevron-right text-gold"></i>
+                                </button>
+                                <button onclick="solveScenario(3)" class="w-full text-left p-3 rounded-xl bg-gray-800 hover:bg-garnet text-xs font-semibold border border-gray-700 transition-all flex justify-between items-center">
+                                    <span>C. Hire a private repair company right away and deduct it from rent without asking.</span>
+                                    <i class="fa-solid fa-chevron-right text-gold"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="scenarioResult" class="hidden text-xs p-4 rounded-xl border"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTERACTIVE BUDGET CALCULATOR & RULES -->
+        <section id="calculator" class="bg-gradient-to-r from-garnet-dark to-garnet text-white rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <div class="lg:col-span-5 space-y-4">
+                    <span class="bg-gold text-garnet font-extrabold text-xs px-3 py-1 rounded-full uppercase">Interactive Tool</span>
+                    <h2 class="text-3xl font-extrabold text-white">Tallahassee Student Budget Calculator</h2>
+                    <p class="text-gray-200 text-xs leading-relaxed">
+                        Financial experts recommend the 30% Rule: Rent should not exceed 30% of your total gross monthly income/stipend. Calculate your realistic housing expenses.
+                    </p>
+
+                    <div class="bg-white/10 p-4 rounded-2xl border border-white/20 text-xs space-y-2">
+                        <div class="flex justify-between text-gold font-bold">
+                            <span>Rule of Thumb:</span>
+                            <span>The 30% Guideline</span>
+                        </div>
+                        <p class="text-gray-300">Don't forget Tallahassee-specific add-ons: FPL utilities ($80-130), parking passes, internet, and trash valet fees!</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-white text-darkSlate p-6 rounded-2xl shadow-xl space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1">Monthly Income / Allowance / Financial Aid</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-gray-400 font-bold text-xs">$</span>
+                                <input type="number" id="monthlyIncome" value="2500" oninput="calculateBudget()" class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-xl text-sm font-bold focus:border-garnet focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1">Target Base Rent</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-gray-400 font-bold text-xs">$</span>
+                                <input type="number" id="baseRent" value="750" oninput="calculateBudget()" class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-xl text-sm font-bold focus:border-garnet focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1">Est. Utilities & FPL Electric</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-gray-400 font-bold text-xs">$</span>
+                                <input type="number" id="estUtilities" value="110" oninput="calculateBudget()" class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-xl text-sm font-bold focus:border-garnet focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-gray-700 block mb-1">Parking & Mandatory Fees</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-gray-400 font-bold text-xs">$</span>
+                                <input type="number" id="estFees" value="45" oninput="calculateBudget()" class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-xl text-sm font-bold focus:border-garnet focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output Bar -->
+                    <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div>
+                            <p class="text-xs text-gray-500 font-semibold">Total Housing Outflow</p>
+                            <p id="totalHousingCost" class="text-2xl font-black text-garnet">$905 / mo</p>
+                        </div>
+                        <div id="budgetVerdict" class="text-right bg-green-100 text-green-800 p-3 rounded-xl text-xs font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-green-600 text-base"></i>
+                            <span>Safe Budget! (36% of Income)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- GLOSSARY & SEARCH HUB -->
+        <section id="glossary" class="space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="text-xs font-bold tracking-widest text-garnet uppercase">Knowledge Bank</span>
+                    <h2 class="text-3xl font-extrabold text-darkSlate mt-1">Leasing Jargon Glossary & Red Flags</h2>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="filterGlossary('all')" class="glossary-filter-btn px-3 py-1.5 rounded-full bg-garnet text-white font-bold">All Terms</button>
+                    <button onclick="filterGlossary('redflag')" class="glossary-filter-btn px-3 py-1.5 rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300">Red Flags</button>
+                    <button onclick="filterGlossary('financial')" class="glossary-filter-btn px-3 py-1.5 rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300">Financial</button>
+                    <button onclick="filterGlossary('fsu')" class="glossary-filter-btn px-3 py-1.5 rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300">FSU Specific</button>
+                </div>
+            </div>
+
+            <!-- Term Cards Container -->
+            <div id="glossaryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards Injected via JS -->
+            </div>
+        </section>
+
+        <!-- CERTIFICATE & LANDLORD VERIFICATION SECTION -->
+        <section id="certificateSection" class="bg-white border-2 border-gold rounded-3xl p-8 text-center space-y-6 shadow-lg relative overflow-hidden">
+            <div class="max-w-2xl mx-auto space-y-4">
+                <div class="w-16 h-16 bg-gold/20 text-garnet rounded-full flex items-center justify-center text-3xl font-bold mx-auto border border-gold">
+                    🎓
+                </div>
+                <h2 class="text-3xl font-extrabold text-darkSlate">Ready to Show Landlords You're Prepared?</h2>
+                <p class="text-gray-600 text-sm">
+                    Many FSU area student landlords offer reduced security deposits or waived application fees for students who complete the <strong>iRenting Housing Readiness Module</strong>.
+                </p>
+
+                <!-- Simulated Progress Checklist -->
+                <div class="inline-flex flex-wrap justify-center gap-4 text-xs font-bold text-gray-700 py-2">
+                    <span class="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-200"><i class="fa-solid fa-check"></i> Diagnostic Quiz</span>
+                    <span class="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-200"><i class="fa-solid fa-check"></i> Red Flag Game</span>
+                    <span class="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-200"><i class="fa-solid fa-check"></i> Budget Check</span>
+                </div>
+
+                <div>
+                    <button onclick="generateCertificate()" class="bg-garnet hover:bg-garnet-dark text-gold font-extrabold px-8 py-3.5 rounded-xl transition-all shadow-xl text-sm inline-flex items-center gap-2">
+                        <i class="fa-solid fa-certificate"></i> Generate Official FSU Renter Certificate
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CERTIFICATE MODAL -->
+    <div id="certificateModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full p-8 relative shadow-2xl border-4 border-gold text-center space-y-6">
+            <button onclick="closeCertModal()" class="absolute top-5 right-5 text-gray-400 hover:text-garnet text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="border-8 border-garnet/10 p-6 rounded-2xl relative">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xs font-bold text-garnet tracking-widest uppercase">Florida State University Housing Literacy</span>
+                    <span class="text-xs font-bold text-gold-dark">ID: #FSU-iRENT-2025-992</span>
+                </div>
+
+                <div class="w-16 h-16 bg-garnet rounded-2xl flex items-center justify-center text-3xl mx-auto text-gold mb-2 border border-gold">
+                    🐴
+                </div>
+
+                <h2 class="text-3xl font-black text-garnet uppercase tracking-wider">Certificate of Completion</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">This certifies that</p>
+                
+                <p id="certStudentName" class="text-2xl font-black text-darkSlate my-2 border-b-2 border-gold inline-block px-8 pb-1">
+                    Garnet & Gold Nole
+                </p>
+
+                <p class="text-xs text-gray-600 max-w-md mx-auto mt-2">
+                    Has successfully mastered off-campus housing fundamentals, lease legalities (FL Statute 83), emergency maintenance protocols, and budget readiness through the <strong>iRenting Platform</strong>.
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 mt-8 pt-4 border-t border-gray-200 text-left text-xs">
+                    <div>
+                        <p class="font-bold text-darkSlate">Raleigh the Horse</p>
+                        <p class="text-gray-500">Official iRenting Mascot</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-darkSlate" id="certDate">October 24, 2025</p>
+                        <p class="text-gray-500">Verification Date</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-4 print:hidden">
+                <button onclick="window.print()" class="bg-garnet text-white font-bold px-6 py-2.5 rounded-xl text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Print / Save PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-darkSlate text-white border-t border-gold/30 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-garnet text-gold font-bold rounded-lg flex items-center justify-center text-lg">iR</div>
+                        <span class="text-xl font-bold tracking-tight">iRenting</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Transforming complex leasing jargon into actionable life skills for Florida State University students.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-gold uppercase tracking-wider mb-3">Quick Navigation</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><a href="#modules" class="hover:text-gold transition-colors">Skill Modules</a></li>
+                        <li><a href="#games" class="hover:text-gold transition-colors">Interactive Games</a></li>
+                        <li><a href="#calculator" class="hover:text-gold transition-colors">Tallahassee Rent Calculator</a></li>
+                        <li><a href="#glossary" class="hover:text-gold transition-colors">Glossary & Red Flags</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-gold uppercase tracking-wider mb-3">FSU Resources</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><a href="https://offcampushousing.fsu.edu" target="_blank" class="hover:text-gold transition-colors">FSU Off-Campus Housing Office</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Florida Tenant Rights (FS 83)</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">FPL Utility Connection Guide</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-gold uppercase tracking-wider mb-3">Landlord Verification</h4>
+                    <p class="text-xs text-gray-400 mb-3">Landlords can enter student certificate IDs to confirm course completion.</p>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="ID #" class="bg-gray-800 text-xs px-3 py-2 rounded-lg border border-gray-700 text-white w-full">
+                        <button onclick="alert('Student Completion Verified! Verified Status: Active.')" class="bg-gold text-garnet font-bold text-xs px-3 py-2 rounded-lg">Verify</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2025 iRenting Platform. Built for FSU Students with Raleigh the Horse 🐴.</p>
+                <p>Designed for educational & informational purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ===================================================
+           1. DATA STORES & GLOSSARY DATABASE
+        =================================================== */
+        const glossaryData = [
+            {
+                term: "Guarantor / Co-Signer",
+                category: "financial",
+                def: "A third party (usually a parent or guardian) who agrees to pay rent if the tenant defaults.",
+                tip: "Most Tallahassee student apartments require a guarantor if you don't earn 3x rent monthly."
+            },
+            {
+                term: "Joint and Several Liability",
+                category: "redflag",
+                def: "A legal clause meaning every roommate is individually responsible for 100% of unpaid rent or damages.",
+                tip: "RED FLAG ALERT! Try to request an 'Individual Lease' (By-the-bed) instead of joint liability."
+            },
+            {
+                term: "Florida Power & Light (FPL)",
+                category: "fsu",
+                def: "The primary electric utility provider for Tallahassee residential rentals.",
+                tip: "Set up FPL 5 days before your start date to avoid move-in darkouts or connection fees."
+            },
+            {
+                term: "Security Deposit Claim Notice",
+                category: "redflag",
+                def: "Under FL Law, a landlord has 30 days to send written notice of intent to impose a claim on your deposit.",
+                tip: "If they don't notify you in writing within 30 days, they forfeit the right to keep any deposit!"
+            },
+            {
+                term: "Sublease / Sublet",
+                category: "fsu",
+                def: "Re-renting your room to another FSU student for a portion of your lease (e.g. Summer term).",
+                tip: "Always get landlord written approval; illegal subleasing can lead to immediate eviction."
+            },
+            {
+                term: "Individual Lease (By-the-Bed)",
+                category: "financial",
+                def: "You only pay for your specific bedroom and share common areas.",
+                tip: "If your roommate doesn't pay their rent, you are NOT responsible for their portion!"
+            }
+        ];
+
+        const quizQuestions = [
+            {
+                q: "Have you ever reviewed or signed a residential lease agreement before?",
+                options: [
+                    { text: "Never, this is my first time!", score: 1 },
+                    { text: "I've signed one with my parents helping.", score: 2 },
+                    { text: "Yes, I'm experienced with leases.", score: 3 }
+                ]
+            },
+            {
+                q: "What does 'Individual Lease' mean for FSU student housing?",
+                options: [
+                    { text: "I have no idea.", score: 1 },
+                    { text: "I only pay for my bedroom, not my roommates'.", score: 3 },
+                    { text: "I share all legal rent costs equally with everyone.", score: 2 }
+                ]
+            },
+            {
+                q: "Do you know Florida's legal rule for how long a landlord has to return a security deposit?",
+                options: [
+                    { text: "No knowledge of Florida rental law.", score: 1 },
+                    { text: "Yes (15 days if no claim, 30 days if claiming damages).", score: 3 },
+                    { text: "I think it's 60 days?", score: 2 }
+                ]
+            }
+        ];
+
+        /* ===================================================
+           2. GLOBAL INITIALIZATION & RENDER
+        =================================================== */
+        let currentQuizStep = 0;
+        let quizTotalScore = 0;
+        let redFlagCount = 0;
+
+        window.onload = function() {
+            renderGlossary(glossaryData);
+            initJargonGame();
+            calculateBudget();
+        };
+
+        /* ===================================================
+           3. SEARCH FUNCTIONALITY
+        =================================================== */
+        function handleGlobalSearch() {
+            const query = document.getElementById('globalSearch').value.toLowerCase();
+            const resultsBox = document.getElementById('searchResults');
+
+            if (!query.trim()) {
+                resultsBox.classList.add('hidden');
+                return;
+            }
+
+            const matches = glossaryData.filter(item => 
+                item.term.toLowerCase().includes(query) || 
+                item.def.toLowerCase().includes(query)
+            );
+
+            if (matches.length === 0) {
+                resultsBox.innerHTML = `<div class="p-4 text-xs text-gray-500">No matching terms found. Try "Deposit" or "Sublease".</div>`;
+            } else {
+                resultsBox.innerHTML = matches.map(item => `
+                    <div class="p-3 border-b border-gray-100 hover:bg-gold-soft cursor-pointer transition-all" onclick="jumpToTerm('${item.term}')">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-xs text-garnet">${item.term}</span>
+                            <span class="text-[10px] bg-gold/30 text-garnet font-semibold px-2 py-0.5 rounded-full uppercase">${item.category}</span>
+                        </div>
+                        <p class="text-xs text-gray-600 truncate mt-1">${item.def}</p>
+                    </div>
+                `).join('');
+            }
+
+            resultsBox.classList.remove('hidden');
+        }
+
+        function jumpToTerm(termName) {
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('globalSearch').value = termName;
+            document.getElementById('glossary').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* ===================================================
+           4. GLOSSARY RENDER & FILTER
+        =================================================== */
+        function renderGlossary(items) {
+            const container = document.getElementById('glossaryContainer');
+            container.innerHTML = items.map(item => `
+                <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-extrabold text-base text-garnet">${item.term}</h4>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+                                item.category === 'redflag' ? 'bg-red-100 text-red-700' :
+                                item.category === 'fsu' ? 'bg-amber-100 text-amber-800' : 'bg-gold/20 text-garnet'
+                            }">${item.category}</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">${item.def}</p>
+                    </div>
+                    <div class="bg-gold-soft p-3 rounded-xl border border-gold/30 text-xs">
+                        <span class="font-bold text-garnet flex items-center gap-1 mb-0.5">
+                            <i class="fa-solid fa-lightbulb text-gold-dark"></i> Raleigh's Tip:
+                        </span>
+                        <p class="text-gray-700 text-[11px]">${item.tip}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterGlossary(cat) {
+            // Update button styles
+            const btns = document.querySelectorAll('.glossary-filter-btn');
+            btns.forEach(b => {
+                b.classList.remove('bg-garnet', 'text-white');
+                b.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-garnet', 'text-white');
+
+            if (cat === 'all') {
+                renderGlossary(glossaryData);
+            } else {
+                const filtered = glossaryData.filter(i => i.category === cat);
+                renderGlossary(filtered);
+            }
+        }
+
+        /* ===================================================
+           5. PLACEMENT QUIZ LOGIC
+        =================================================== */
+        function openQuizModal() {
+            currentQuizStep = 0;
+            quizTotalScore = 0;
+            renderQuizStep();
+            document.getElementById('quizModal').classList.remove('hidden');
+        }
+
+        function closeQuizModal() {
+            document.getElementById('quizModal').classList.add('hidden');
+        }
+
+        function renderQuizStep() {
+            const container = document.getElementById('quizStepContainer');
+            if (currentQuizStep < quizQuestions.length) {
+                const q = quizQuestions[currentQuizStep];
+                container.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold text-gold-dark uppercase tracking-widest">Question ${currentQuizStep + 1} of 3</span>
+                        <h4 class="text-base font-bold text-darkSlate mt-1">${q.q}</h4>
+                    </div>
+                    <div class="space-y-3 pt-2">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="handleQuizAnswer(${opt.score})" class="w-full text-left p-3.5 rounded-xl border-2 border-gray-200 hover:border-garnet hover:bg-gold-soft text-xs font-semibold transition-all">
+                                ${opt.text}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                // Render Recommendation
+                let recommendedModule = "Beginner Track (Rookie Renter)";
+                let moduleTarget = "module-beginner";
+                let msg = "We recommend starting with basic terms, budget tools, and roommate agreements!";
+
+                if (quizTotalScore >= 7) {
+                    recommendedModule = "Expert Track (Lease Master)";
+                    moduleTarget = "module-expert";
+                    msg = "You know your basics! Dive straight into Florida Statute 83 and security deposit recovery laws.";
+                } else if (quizTotalScore >= 4) {
+                    recommendedModule = "Moderate Track (Savvy Student)";
+                    moduleTarget = "module-moderate";
+                    msg = "Great foundation! Focus on red flag clause identification and Tallahassee utility setups.";
+                }
+
+                container.innerHTML = `
+                    <div class="text-center space-y-4 py-4">
+                        <div class="w-16 h-16 bg-gold/20 text-garnet rounded-full flex items-center justify-center text-3xl mx-auto border border-gold">
+                            🐴
+                        </div>
+                        <h4 class="text-xl font-extrabold text-garnet">Quiz Complete!</h4>
+                        <p class="text-xs text-gray-600">Based on your responses, Raleigh recommends:</p>
+                        <div class="p-4 bg-garnet text-gold font-extrabold text-sm rounded-2xl shadow-md">
+                            ${recommendedModule}
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">${msg}</p>
+                        <button onclick="closeQuizModal(); document.getElementById('${moduleTarget}').scrollIntoView({behavior: 'smooth'})" class="w-full bg-gold hover:bg-gold-dark text-garnet-dark font-extrabold py-3 rounded-xl text-xs transition-all">
+                            Take Me To My Path <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function handleQuizAnswer(score) {
+            quizTotalScore += score;
+            currentQuizStep++;
+            renderQuizStep();
+        }
+
+        /* ===================================================
+           6. GAME 1: SPOT THE RED FLAG LOGIC
+        =================================================== */
+        function checkRedFlag(clauseId, isRedFlag) {
+            const el = document.getElementById(`clause-${clauseId}`);
+            const feedback = document.getElementById('redFlagFeedback');
+
+            if (isRedFlag) {
+                el.classList.remove('hover:border-gray-300', 'hover:bg-white');
+                el.classList.add('bg-red-100', 'border-red-400', 'text-red-900', 'font-bold');
+                feedback.className = "mt-2 text-xs p-3 rounded-xl bg-red-100 text-red-800 flex items-center gap-2 border border-red-200";
+                
+                if (clauseId === 2) {
+                    feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>RED FLAG DETECTED!</strong> FL Statute 83.53 requires landlords to give at least 12-24 hours reasonable notice before entry!`;
+                } else if (clauseId === 3) {
+                    feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>RED FLAG DETECTED!</strong> Automatic security deposit forfeiture without proving damages is unenforceable.`;
+                } else if (clauseId === 4) {
+                    feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>RED FLAG DETECTED!</strong> Major structural maintenance is legally the landlord's duty to maintain, not the student tenant's!`;
+                }
+
+                if (!el.dataset.found) {
+                    el.dataset.found = "true";
+                    redFlagCount++;
+                    document.getElementById('redFlagScore').innerText = `Score: ${redFlagCount} / 3`;
+                    updateProgress(10);
+                }
+            } else {
+                el.classList.add('bg-green-50', 'border-green-300', 'text-green-800');
+                feedback.className = "mt-2 text-xs p-3 rounded-xl bg-green-50 text-green-800 flex items-center gap-2 border border-green-200";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Standard Clause:</strong> Paying rent online on the 1st is normal and legal. Keep searching!`;
+            }
+        }
+
+        /* ===================================================
+           7. GAME 2: JARGON DRAGON LOGIC
+        =================================================== */
+        const jargonQuizData = [
+            {
+                term: "Joint & Several Liability",
+                correct: "All roommates share full legal responsibility for total unpaid rent.",
+                wrong: ["Each student only pays for their individual bedroom.", "The landlord pays for damages."],
+            },
+            {
+                term: "Sublease",
+                correct: "Renting your assigned room to a new student with landlord permission.",
+                wrong: ["Breaking your lease without paying fees.", "Inviting a guest to stay over for game weekend."],
+            },
+            {
+                term: "Security Deposit",
+                correct: "A refundable sum held by landlord for potential unit damages.",
+                wrong: ["An extra non-refundable fee for keeping pets.", "First month's prepaid utility payment."]
+            }
+        ];
+        let jargonIndex = 0;
+
+        function initJargonGame() {
+            const q = jargonQuizData[jargonIndex];
+            document.getElementById('jargonTerm').innerText = q.term;
+            document.getElementById('jargonRound').innerText = `Question ${jargonIndex + 1}/${jargonQuizData.length}`;
+
+            // Combine options
+            const options = [q.correct, ...q.wrong].sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('jargonOptions');
+            optionsContainer.innerHTML = options.map(opt => `
+                <button onclick="submitJargonAnswer('${opt.replace(/'/g, "\\'")}', '${q.correct.replace(/'/g, "\\'")}')" class="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-purple-500 hover:bg-purple-50 text-xs font-semibold transition-all">
+                    ${opt}
+                </button>
+            `).join('');
+        }
+
+        function submitJargonAnswer(selected, correct) {
+            const feedback = document.getElementById('jargonFeedback');
+            feedback.classList.remove('hidden');
+
+            if (selected === correct) {
+                feedback.className = "mt-4 text-xs p-3 rounded-xl bg-green-100 text-green-800 border border-green-300 flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-dragon"></i> <strong>Slayed!</strong> Correct answer. You defeated the Jargon Dragon!`;
+                updateProgress(10);
+                setTimeout(() => {
+                    jargonIndex = (jargonIndex + 1) % jargonQuizData.length;
+                    feedback.classList.add('hidden');
+                    initJargonGame();
+                }, 1800);
+            } else {
+                feedback.className = "mt-4 text-xs p-3 rounded-xl bg-red-100 text-red-800 border border-red-300 flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-xmark"></i> <strong>Incorrect!</strong> Raleigh says: Try again!`;
+            }
+        }
+
+        /* ===================================================
+           8. GAME 3: LEASE DETECTIVE SCENARIOS
+        =================================================== */
+        function solveScenario(choice) {
+            const resultBox = document.getElementById('scenarioResult');
+            resultBox.classList.remove('hidden');
+
+            if (choice === 2) {
+                resultBox.className = "text-xs p-4 rounded-xl bg-green-900/80 border border-green-500 text-green-100 space-y-2";
+                resultBox.innerHTML = `
+                    <p class="font-bold text-sm"><i class="fa-solid fa-shield-halved text-gold"></i> Perfect Legal Response!</p>
+                    <p>Submitting an official portal ticket combined with written proof creates a paper trail under FL Statute 83.56. If ignored for 7 days, you unlock legal repair remedies!</p>
+                `;
+                updateProgress(15);
+            } else {
+                resultBox.className = "text-xs p-4 rounded-xl bg-red-900/80 border border-red-500 text-red-100 space-y-2";
+                resultBox.innerHTML = `
+                    <p class="font-bold text-sm"><i class="fa-solid fa-circle-exclamation text-gold"></i> High Risk Choice!</p>
+                    <p>Withholding rent unilaterally or making unapproved repairs without formal 7-day written legal notice can get you served an eviction notice in Florida. Try choice B!</p>
+                `;
+            }
+        }
+
+        /* ===================================================
+           9. BUDGET CALCULATOR
+        =================================================== */
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+            const rent = parseFloat(document.getElementById('baseRent').value) || 0;
+            const utils = parseFloat(document.getElementById('estUtilities').value) || 0;
+            const fees = parseFloat(document.getElementById('estFees').value) || 0;
+
+            const total = rent + utils + fees;
+            document.getElementById('totalHousingCost').innerText = `$${total.toFixed(0)} / mo`;
+
+            const percentage = income > 0 ? (total / income) * 100 : 0;
+            const verdict = document.getElementById('budgetVerdict');
+
+            if (percentage <= 35) {
+                verdict.className = "text-right bg-green-100 text-green-800 p-3 rounded-xl text-xs font-bold flex items-center gap-2 border border-green-300";
+                verdict.innerHTML = `<i class="fa-solid fa-circle-check text-green-600 text-base"></i> Safe Budget! (${percentage.toFixed(0)}% of Monthly Income)`;
+            } else {
+                verdict.className = "text-right bg-amber-100 text-amber-900 p-3 rounded-xl text-xs font-bold flex items-center gap-2 border border-amber-300";
+                verdict.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 text-base"></i> High Rent Ratio (${percentage.toFixed(0)}% of Income). Consider roommates!`;
+            }
+        }
+
+        /* ===================================================
+           10. PROGRESS & USER ROLE TOGGLE
+        =================================================== */
+        let currentProgress = 25;
+
+        function updateProgress(amount) {
+            currentProgress = Math.min(100, currentProgress + amount);
+            document.getElementById('overallProgressBar').style.width = currentProgress + '%';
+            document.getElementById('progressText').innerText = `Overall Knowledge Progress: ${currentProgress}%`;
+            
+            if (currentProgress >= 60) {
+                document.getElementById('mascotQuote').innerText = `"Awesome work! You're almost ready to generate your Landlord Verification Certificate!" 🐴`;
+            }
+        }
+
+        function toggleRole(role) {
+            const uBtn = document.getElementById('userBtn');
+            const lBtn = document.getElementById('landlordBtn');
+
+            if (role === 'landlord') {
+                lBtn.className = "px-3 py-1.5 rounded-full bg-garnet text-white transition-all shadow-sm";
+                uBtn.className = "px-3 py-1.5 rounded-full text-gray-700 hover:text-garnet transition-all";
+                alert("Landlord View Mode: You can verify student certificates and view housing readiness credentials.");
+                document.getElementById('certificateSection').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                uBtn.className = "px-3 py-1.5 rounded-full bg-garnet text-white transition-all shadow-sm";
+                lBtn.className = "px-3 py-1.5 rounded-full text-gray-700 hover:text-garnet transition-all";
+            }
+        }
+
+        /* ===================================================
+           11. CERTIFICATE GENERATOR
+        =================================================== */
+        function generateCertificate() {
+            const name = prompt("Enter your full name for your FSU Renter Readiness Certificate:", "Florida State Student");
+            if (name) {
+                document.getElementById('certStudentName').innerText = name;
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('certDate').innerText = new Date().toLocaleDateString("en-US", options);
+                document.getElementById('certificateModal').classList.remove('hidden');
+            }
+        }
+
+        function closeCertModal() {
+            document.getElementById('certificateModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
